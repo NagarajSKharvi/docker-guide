@@ -1,0 +1,88 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue0;\red253\green139\blue9;
+\red253\green139\blue9;}
+{\*\expandedcolortbl;;\csgray\c0;\cssrgb\c0\c0\c0;\cssrgb\c100000\c61456\c0;
+\cssrgb\c100000\c61456\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh18000\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs48 \cf0 Push 1st Image (Custom NGNIX Image)
+\f1\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+Time to push first image to docker hub\
+Create an account and login to docker.com, Create a repository with any name (Ex : 
+\fs24 \cf3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 my-nginx-tagged
+\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 )\
+\
+\cf3 \cb4 docker images\cf2 \cb1 \
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE\
+my-nginx            latest              59bae95439aa        22 hours ago        110MB\
+\
+Creating a image with a name same as repo name (Copy a Image file) and give a tag name(Both image share same ID). So that it can be uploaded to Docker Hub\
+\cf3 \cb4 docker tag my-nginx:latest kharvinagaraj1/my-nginx-tagged:1.0\cf2 \cb1 \
+\
+\cf3 \cb4 docker images\cf2 \cb1 \
+REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE\
+kharvinagaraj1/my-nginx-tagged   1.0                 59bae95439aa        22 hours ago        110MB\
+my-nginx                         latest              59bae95439aa        22 hours ago        110MB\
+\
+\cf3 \cb4 docker login\cf2 \cb1 \
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.\
+Username: kharvinagaraj1\
+Password: \
+Login Succeeded\
+\
+\cf3 \cb4 docker push kharvinagaraj1/my-nginx-tagged:1.0\cf2 \cb1 \
+The push refers to repository [docker.io/kharvinagaraj1/my-nginx-tagged]\
+b9e2748668f6: Pushed \
+3f4b4194464d: Pushed \
+82ae01d5004e: Pushed \
+b8f18c3b860b: Pushed \
+5dacd731af1b: Pushed \
+1.0: digest: sha256:ed33a0e64d0096155cd246539ad7a299f9afd20347da28f1f9d459c77981da2a size: 1365\
+\
+Goto docker hub and check for pushed image. Image will be compressed and pushed to docker hub.\
+\
+Removing a tagged image\
+\cf3 \cb4 docker images\cf2 \cb1 \
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE\
+learn/ngnix         1.0                 59bae95439aa        22 hours ago        110MB\
+my-nginx            latest              59bae95439aa        22 hours ago        110MB\
+\
+\cf3 \cb4 docker rmi 59bae95439aa\cf2 \cb1 \
+Error response from daemon: conflict: unable to delete 59bae95439aa (must be forced) - image is referenced in multiple repositories\
+\
+\cf3 \cb4 docker rmi learn/ngnix:1.0\cf2 \cb1 \
+Untagged: learn/ngnix:1.0\
+\
+\cf3 \cb4 docker images\cf2 \cb1 \
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE\
+my-nginx            latest              59bae95439aa        22 hours ago        110MB\
+\
+\cf3 \cb5 docker rmi $(docker images -q)\cf2 \cb1 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 \cb5 docker pull kharvinagaraj1/my-nginx-tagged:1.0\cf2 \cb1 \
+1.0: Pulling from kharvinagaraj1/my-nginx-tagged\
+27833a3ba0a5: Already exists \
+0f23e58bd0b7: Already exists \
+8ca774778e85: Already exists \
+ef29ca36f1cc: Already exists \
+1d67906fe8b4: Already exists \
+Digest: sha256:ed33a0e64d0096155cd246539ad7a299f9afd20347da28f1f9d459c77981da2a\
+Status: Downloaded newer image for kharvinagaraj1/my-nginx-tagged:1.0\
+docker.io/kharvinagaraj1/my-nginx-tagged:1.0\
+\
+\cf3 \cb5 docker images\cf2 \cb1 \
+REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE\
+kharvinagaraj1/my-nginx-tagged   1.0                 59bae95439aa        25 hours ago        110MB\
+\
+\cf3 \cb5 docker run -itd --name first-container-1 -p 5555:80 kharvinagaraj1/my-nginx-tagged:1.0\cf2 \cb1 \
+4c45e217586f187ab91d3a297bac0d792d41121cd8297d2e8f20cecda149de3c\
+\
+\cf3 \cb5 docker ps\cf2 \cb1 \
+CONTAINER ID        IMAGE                                COMMAND                  CREATED             STATUS              PORTS                  NAMES\
+4c45e217586f        kharvinagaraj1/my-nginx-tagged:1.0   "nginx -g 'daemon of\'85"   5 seconds ago       Up 4 seconds        0.0.0.0:5555->80/tcp   first-container-1}
