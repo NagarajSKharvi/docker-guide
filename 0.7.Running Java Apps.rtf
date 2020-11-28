@@ -1,12 +1,7 @@
 {\rtf1\ansi\ansicpg1252\cocoartf2513
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;\f2\fnil\fcharset0 Menlo-Bold;
-}
-{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red88\green137\blue67;
-\red203\green203\blue202;\red184\green111\blue179;\red67\green192\blue160;\red194\green125\blue100;\red142\green213\blue255;
-\red0\green0\blue0;\red204\green204\blue202;}
-{\*\expandedcolortbl;;\cssrgb\c0\c1\c1;\cssrgb\c100000\c100000\c100000;\cssrgb\c41436\c59847\c32956;
-\cssrgb\c83411\c83411\c83099;\cssrgb\c77483\c52772\c75312;\cssrgb\c30653\c78980\c69024;\cssrgb\c80765\c56762\c46655;\cssrgb\c61729\c86919\c100000;
-\cssrgb\c0\c1\c1;\cssrgb\c83591\c83590\c83070;}
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Bold;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c0\c1\c1;\cssrgb\c100000\c100000\c100000;}
 \paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh16580\viewkind0
 \deftab720
 \pard\pardeftab720\partightenfactor0
@@ -254,7 +249,8 @@ docker build -t custom-app .\
 docker run -itd --name custom-app -p 8080:8080 custom-app:latest\
 docker logs <container-id>
 \fs24 \cf2 \CocoaLigature1 \
-\CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \CocoaLigature0 \
 \
 \pard\pardeftab720\partightenfactor0
 
@@ -334,81 +330,81 @@ docker logs <container-id>\
 Rest call on browser\
 http://localhost:8082/test\
 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
 
-\fs36 View containers
-\fs22 \cf10 \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-
-\f1 \cf10 docker ps \
+\fs36 \cf2 View containers
+\fs22 \cf2 \
+docker ps \
 CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS              PORTS                    NAMES\
 0fe7b23527b9        spring-boot-app1:latest   "java -jar /usr/loca\'85"   4 hours ago         Up 4 hours          0.0.0.0:5555->8080/tcp   boot-cont-1\
 \
 docker exec -it 0f /bin/bash\
 root@0fe7b23527b9:/# ls\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
 
-\f2\b \cf10 bin
-\f1\b0 \cf10   
-\f2\b \cf10 boot
-\f1\b0 \cf10   
-\f2\b \cf10 dev
-\f1\b0 \cf10   
-\f2\b \cf10 etc
-\f1\b0 \cf10   
-\f2\b \cf10 home
-\f1\b0 \cf10   
-\f2\b \cf10 lib
-\f1\b0 \cf10   
-\f2\b \cf10 lib32
-\f1\b0 \cf10   
-\f2\b \cf10 lib64
-\f1\b0 \cf10   
-\f2\b \cf10 libx32
-\f1\b0 \cf10   
-\f2\b \cf10 media
-\f1\b0 \cf10   
-\f2\b \cf10 mnt
-\f1\b0 \cf10   
-\f2\b \cf10 opt
-\f1\b0 \cf10   
-\f2\b \cf10 proc
-\f1\b0 \cf10   
-\f2\b \cf10 root
-\f1\b0 \cf10   
-\f2\b \cf10 run
-\f1\b0 \cf10   
-\f2\b \cf10 sbin
-\f1\b0 \cf10   
-\f2\b \cf10 srv
-\f1\b0 \cf10   
-\f2\b \cf10 sys
-\f1\b0 \cf10   tmp  
-\f2\b \cf10 usr
-\f1\b0 \cf10   
-\f2\b \cf10 var
-\f1\b0 \cf10 \
+\f1\b \cf2 bin
+\f0\b0   
+\f1\b boot
+\f0\b0   
+\f1\b dev
+\f0\b0   
+\f1\b etc
+\f0\b0   
+\f1\b home
+\f0\b0   
+\f1\b lib
+\f0\b0   
+\f1\b lib32
+\f0\b0   
+\f1\b lib64
+\f0\b0   
+\f1\b libx32
+\f0\b0   
+\f1\b media
+\f0\b0   
+\f1\b mnt
+\f0\b0   
+\f1\b opt
+\f0\b0   
+\f1\b proc
+\f0\b0   
+\f1\b root
+\f0\b0   
+\f1\b run
+\f0\b0   
+\f1\b sbin
+\f0\b0   
+\f1\b srv
+\f0\b0   
+\f1\b sys
+\f0\b0   tmp  
+\f1\b usr
+\f0\b0   
+\f1\b var
+\f0\b0 \
 root@0fe7b23527b9:/# cd /usr/local/spring-boot-app\
 root@0fe7b23527b9:/usr/local/spring-boot-app# ls\
 Dockerfile  HELP.md  
-\f2\b \cf10 mvnw
-\f1\b0 \cf10   mvnw.cmd  pom.xml  
-\f2\b \cf10 src
-\f1\b0 \cf10   
-\f2\b \cf10 target
-\f1\b0 \cf10 \
+\f1\b mvnw
+\f0\b0   mvnw.cmd  pom.xml  
+\f1\b src
+\f0\b0   
+\f1\b target
+\f0\b0 \
 root@0fe7b23527b9:/usr/local/spring-boot-app# ls target/\
 
-\f2\b \cf10 classes
-\f1\b0 \cf10   
-\f2\b \cf10 generated-sources
-\f1\b0 \cf10   
-\f2\b \cf10 generated-test-sources
-\f1\b0 \cf10   
-\f2\b \cf10 maven-archiver
-\f1\b0 \cf10   
-\f2\b \cf10 maven-status
-\f1\b0 \cf10   
-\f2\b \cf10 spring-boot-app-0.0.1-SNAPSHOT.jar
-\f1\b0 \cf10   spring-boot-app-0.0.1-SNAPSHOT.jar.original  
-\f2\b \cf10 surefire-reports
-\f1\b0 \cf10   
-\f2\b \cf10 test-classes}
+\f1\b classes
+\f0\b0   
+\f1\b generated-sources
+\f0\b0   
+\f1\b generated-test-sources
+\f0\b0   
+\f1\b maven-archiver
+\f0\b0   
+\f1\b maven-status
+\f0\b0   
+\f1\b spring-boot-app-0.0.1-SNAPSHOT.jar
+\f0\b0   spring-boot-app-0.0.1-SNAPSHOT.jar.original  
+\f1\b surefire-reports
+\f0\b0   
+\f1\b test-classes}
