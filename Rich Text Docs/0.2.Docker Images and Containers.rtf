@@ -1,0 +1,634 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red252\green138\blue8;}
+{\*\expandedcolortbl;;\cssrgb\c0\c1\c1;\cssrgb\c99704\c61080\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh15200\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs48 \cf2 Apache httpd
+\fs22 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 Use Case flow:
+\fs22 \cf2 \
+Dockerfile -> Build an Image of httpd server with a website to be hosted -> List all images -> inspect image -> Run multiple containers from the image -> Inspect the container -> Show all containers running and stopped ->\
+View container Logs -> Stop and start the Container\
+\
+
+\fs28 \cf2 Docker Image Structure:
+\fs22 \cf2 \
+Apache HTTPD Image with custom httpd.conf and some website\
+	|\
+Apache HTTP Image from Docker Hub\
+	|\
+Docker Engine\
+	|\
+Host OS (Windows/Mac OS/ Linux)\
+	|\
+Infrastructure/Server\
+\
+What is a Docker Image?\
+Analogy between the Docker Image and Camera\
+User -> Camera (Old age analog camera) -> negative film    -> Prints of Photographs\
+User -> DockerFile                                      -> Docker Image -> Containers\
+\
+
+\fs28 \cf2 Building first image
+\fs22 \cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 \CocoaLigature0 docker build -t my-httpd .\cf2 \cb1 \
+[+] Building 27.3s (8/8) FINISHED                                                                                                                                                                           \
+ => [internal] load build definition from Dockerfile                                                                                                                                                   0.1s\
+ => => transferring dockerfile: 543B                                                                                                                                                                   0.0s\
+ => [internal] load .dockerignore                                                                                                                                                                      0.1s\
+ => => transferring context: 2B                                                                                                                                                                        0.0s\
+ => [internal] load metadata for docker.io/library/httpd:latest                                                                                                                                        7.7s\
+ => [1/3] FROM docker.io/library/httpd:latest@sha256:b82fb56847fcbcca9f8f162a3232acb4a302af96b1b2af1c4c3ac45ef0c9b968                                                                                 18.9s\
+ => => resolve docker.io/library/httpd:latest@sha256:b82fb56847fcbcca9f8f162a3232acb4a302af96b1b2af1c4c3ac45ef0c9b968                                                                                  0.0s\
+ => => sha256:b82fb56847fcbcca9f8f162a3232acb4a302af96b1b2af1c4c3ac45ef0c9b968 1.86kB / 1.86kB                                                                                                         0.0s\
+ => => sha256:60b82a0c2599b217d5231d3a54eb9f691ac8bc15b66f8f5f79f383f87c9c51ce 1.37kB / 1.37kB                                                                                                         0.0s\
+ => => sha256:7b85101950dd61a280ad3264ff1a7a70cc814fab43556fbe9404485680eb98cb 2.79MB / 2.79MB                                                                                                         3.1s\
+ => => sha256:3dd970e6b110c8cbcec63e05a91e3cefd23c76a780fcb78c33979153f044b2d4 8.74kB / 8.74kB                                                                                                         0.0s\
+ => => sha256:bb79b6b2107fea8e8a47133a660b78e3a546998fcf0427be39ac9a0af4a97e90 27.09MB / 27.09MB                                                                                                      12.6s\
+ => => sha256:26694ef5449ad005621c511a88a424f4cbb4088ecd7f14c4abfd02c19b05b201 145B / 145B                                                                                                             1.4s\
+ => => sha256:da919f2696f2b4b65d59b6edec3e2f9e404fb16fc560f374c9d0eeaf877b595d 24.47MB / 24.47MB                                                                                                      12.3s\
+ => => sha256:3ae86ea9f1b923270aad9819c8cf14c62dc1fcc6463d3e50d0b499ed7440d49a 298B / 298B                                                                                                             4.0s\
+ => => extracting sha256:bb79b6b2107fea8e8a47133a660b78e3a546998fcf0427be39ac9a0af4a97e90                                                                                                              3.1s\
+ => => extracting sha256:26694ef5449ad005621c511a88a424f4cbb4088ecd7f14c4abfd02c19b05b201                                                                                                              0.0s\
+ => => extracting sha256:7b85101950dd61a280ad3264ff1a7a70cc814fab43556fbe9404485680eb98cb                                                                                                              0.3s\
+ => => extracting sha256:da919f2696f2b4b65d59b6edec3e2f9e404fb16fc560f374c9d0eeaf877b595d                                                                                                              1.8s\
+ => => extracting sha256:3ae86ea9f1b923270aad9819c8cf14c62dc1fcc6463d3e50d0b499ed7440d49a                                                                                                              0.0s\
+ => [internal] load build context                                                                                                                                                                      0.1s\
+ => => transferring context: 1.11MB                                                                                                                                                                    0.1s\
+ => [2/3] COPY pictolearn-sample/ /usr/local/apache2/htdocs/pictolearn                                                                                                                                 0.5s\
+ => [3/3] COPY httpd.conf /usr/local/apache2/conf                                                                                                                                                      0.0s\
+ => exporting to image                                                                                                                                                                                 0.1s\
+ => => exporting layers                                                                                                                                                                                0.1s\
+ => => writing image sha256:f9c5fdcb01cc395d9055b01e2d39a837532b3d947cd68a76e2d9fa7b1ba07f8e                                                                                                           0.0s\
+ => => naming to docker.io/library/my-httpd \
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 \CocoaLigature1 List out images
+\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker images\cf2 \cb1 \
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE\
+my-httpd            latest              f9c5fdcb01cc        About a minute ago   139MB\
+hello-world         latest              bf756fb1ae65        10 months ago        13.3kB\
+\
+Image and Containers will have short name as well as long name\
+For Ex: my-httpd has long name f9c5fdcb01cc395d9055b01e2d39a837532b3d947cd68a76e2d9fa7b1ba07f8e and short name f9c5fdcb01cc\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 \CocoaLigature1 Inspect image
+\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker inspect f9c5fdcb01cc\cf2 \cb1 \
+[\
+    \{\
+        "Id": "sha256:f9c5fdcb01cc395d9055b01e2d39a837532b3d947cd68a76e2d9fa7b1ba07f8e",\
+        "RepoTags": [\
+            "my-httpd:latest"\
+        ],\
+        "RepoDigests": [],\
+        "Parent": "",\
+        "Comment": "buildkit.dockerfile.v0",\
+        "Created": "2020-11-14T10:36:08.2493638Z",\
+        "Container": "",\
+        "ContainerConfig": \{\
+            "Hostname": "",\
+            "Domainname": "",\
+            "User": "",\
+            "AttachStdin": false,\
+            "AttachStdout": false,\
+            "AttachStderr": false,\
+            "Tty": false,\
+            "OpenStdin": false,\
+            "StdinOnce": false,\
+            "Env": null,\
+            "Cmd": null,\
+            "Image": "",\
+            "Volumes": null,\
+            "WorkingDir": "",\
+            "Entrypoint": null,\
+            "OnBuild": null,\
+            "Labels": null\
+        \},\
+        "DockerVersion": "",\
+        "Author": "",\
+        "Config": \{\
+            "Hostname": "",\
+            "Domainname": "",\
+            "User": "",\
+            "AttachStdin": false,\
+            "AttachStdout": false,\
+            "AttachStderr": false,\
+            "ExposedPorts": \{\
+                "80/tcp": \{\}\
+            \},\
+            "Tty": false,\
+            "OpenStdin": false,\
+            "StdinOnce": false,\
+            "Env": [\
+                "PATH=/usr/local/apache2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",\
+                "HTTPD_PREFIX=/usr/local/apache2",\
+                "HTTPD_VERSION=2.4.46",\
+                "HTTPD_SHA256=740eddf6e1c641992b22359cabc66e6325868c3c5e2e3f98faf349b61ecf41ea",\
+                "HTTPD_PATCHES="\
+            ],\
+            "Cmd": [\
+                "httpd-foreground"\
+            ],\
+            "ArgsEscaped": true,\
+            "Image": "",\
+            "Volumes": null,\
+            "WorkingDir": "/usr/local/apache2",\
+            "Entrypoint": null,\
+            "OnBuild": null,\
+            "Labels": \{\
+                "Maintainer": "Pictolearn"\
+            \},\
+            "StopSignal": "SIGWINCH"\
+        \},\
+        "Architecture": "amd64",\
+        "Os": "linux",\
+        "Size": 138635676,\
+        "VirtualSize": 138635676,\
+        "GraphDriver": \{\
+            "Data": \{\
+                "LowerDir": "/var/lib/docker/overlay2/7130u8h0ovukk0ef1ouxlsc8l/diff:/var/lib/docker/overlay2/f9f9753d19684ea6b548ba041a9cc141931ea5e840db34114138334973a6a933/diff:/var/lib/docker/overlay2/0fa1b09e43ce7b9fc47d7e2762cd4868365b7e0c60359cfc4f7c06d56df3b39f/diff:/var/lib/docker/overlay2/74818c74edcd13811661b383702fdec8c698f3648f0fe0ce6e55dcbb995cc7ee/diff:/var/lib/docker/overlay2/c01bb3fac246d30295ed4e1b57964a1c555964202937af25399de32e0f4dbddc/diff:/var/lib/docker/overlay2/05a806dca62eca0a3eed88ba147257d5e76059c4a7ff936c2ffe4c542cb3a1ff/diff",\
+                "MergedDir": "/var/lib/docker/overlay2/t4jaiz54x7tt460ufxliyf7c1/merged",\
+                "UpperDir": "/var/lib/docker/overlay2/t4jaiz54x7tt460ufxliyf7c1/diff",\
+                "WorkDir": "/var/lib/docker/overlay2/t4jaiz54x7tt460ufxliyf7c1/work"\
+            \},\
+            "Name": "overlay2"\
+        \},\
+        "RootFS": \{\
+            "Type": "layers",\
+            "Layers": [\
+                "sha256:d0fe97fa8b8cefdffcef1d62b65aba51a6c87b6679628a2b50fc6a7a579f764c",\
+                "sha256:6d80bc0bd9236b4371fc137f87ab9d64797767aba342dbe9d7a4f24682861a9a",\
+                "sha256:e6f7f192bbc8a8a3456699ab9b082e2e2363142ec5d6fa4638dc7b789cdd7675",\
+                "sha256:c264370aa73656953f8663325abf20f0030ad97abe0076db75f327835853d3f3",\
+                "sha256:850c0c904ff3f3faab24f1cf50030d161ca5fcaf07d0fb3e79b9fb242e187787",\
+                "sha256:1c58aa717708dce436b49b565e374e0278da553c54838dd7b911a0c7976ad4d4",\
+                "sha256:1cc379ed4822e5bfc831fddb9414ab05d12c7459d5720b0b4d60b7d15f72c69b"\
+            ]\
+        \},\
+        "Metadata": \{\
+            "LastTagTime": "2020-11-14T10:36:08.3453324Z"\
+        \}\
+    \}\
+]\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 \CocoaLigature1 Run images as Container
+\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker run -itd --name my-http-container-1 -p 5555:80 my-httpd:latest\cf2 \cb1 \
+cf5f8e28a72cbdf6352c581f4369424da72a0b34624b9e6bb433f095c76beb90\
+\cf2 \cb3 docker run -itd --name my-http-container-2 -p 5556:80 my-httpd:latest\cf2 \cb1 \
+8b15eb7b5aab5f3311e4802be8a26880c1e74a9496041f882824016507800772\
+\
+\cf2 \cb3 docker run -itd --name my-http-container-2 -p 5556:80 my-httpd:latest\cf2 \cb1 \
+docker: Error response from daemon: Conflict. The container name "/my-http-container-2" is already in use by container "8b15eb7b5aab5f3311e4802be8a26880c1e74a9496041f882824016507800772". You have to remove (or rename) that container to be able to reuse that name. See 'docker run --help'.\
+\
+\cf2 \cb3 docker run -itd --name my-http-container-3 -p 5556:80 my-httpd:latest\cf2 \cb1 \
+218bc35ba1ffb11c3c6aa6f7c45772bd22a48ad315b99b377e6a485d28c14afd\
+docker: Error response from daemon: driver failed programming external connectivity on endpoint my-http-container-3 (e67475e80e0dc54dea2aadafe8670b01ee2d11b8c30af32af7e277f2428e9192): Bind for 0.0.0.0:5556 failed: port is already allocated.\
+\
+
+\fs28 Access hosted website
+\fs22 \
+http://localhost:5555/\
+http://localhost:5556/\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 \CocoaLigature1 List running Containers
+\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker ps\cf2 \cb1 \
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS              PORTS                  NAMES\
+8b15eb7b5aab        my-httpd:latest     "httpd-foreground"   19 minutes ago      Up 18 minutes       0.0.0.0:5556->80/tcp   my-http-container-2\
+cf5f8e28a72c        my-httpd:latest     "httpd-foreground"   20 minutes ago      Up 20 minutes       0.0.0.0:5555->80/tcp   my-http-container-1\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 \CocoaLigature1 List all Containers (Running and Stopped)
+\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker ps -a\cf2 \cb1 \
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS                   PORTS                  NAMES\
+218bc35ba1ff        my-httpd:latest     "httpd-foreground"   18 minutes ago      Created                                         my-http-container-3\
+8b15eb7b5aab        my-httpd:latest     "httpd-foreground"   19 minutes ago      Up 19 minutes            0.0.0.0:5556->80/tcp   my-http-container-2\
+cf5f8e28a72c        my-httpd:latest     "httpd-foreground"   21 minutes ago      Up 21 minutes            0.0.0.0:5555->80/tcp   my-http-container-1\
+cde22a5de0cd        hello-world         "/hello"             5 hours ago         Exited (0) 5 hours ago                          jolly_jang\
+\pard\pardeftab720\partightenfactor0
+\cf2 \CocoaLigature1 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \CocoaLigature0 Image and Containers will have short name as well as long name\
+For Ex: container 1 has long name cf5f8e28a72cbdf6352c581f4369424da72a0b34624b9e6bb433f095c76beb90 and short name cf5f8e28a72c\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \CocoaLigature1 Run container in a non detached mode but the disadvantage is the website will be alive till the lifetime of CLI (When it gets closed we cannot access the contents) [Its like running application without nohup in linux]\cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker run -it --name my-http-container-not-detached-mode -p 5557:80 my-httpd:latest\cf2 \cb1 \
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.4. Set the 'ServerName' directive globally to suppress this message\
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.4. Set the 'ServerName' directive globally to suppress this message\
+[Sat Nov 14 12:18:48.564698 2020] [mpm_event:notice] [pid 1:tid 140315819111552] AH00489: Apache/2.4.46 (Unix) configured -- resuming normal operations\
+[Sat Nov 14 12:18:48.565120 2020] [core:notice] [pid 1:tid 140315819111552] AH00094: Command line: 'httpd -D FOREGROUND'\
+172.17.0.1 - - [14/Nov/2020:12:18:58 +0000] "GET / HTTP/1.1" 200 3294\
+172.17.0.1 - - [14/Nov/2020:12:18:58 +0000] "GET /css/bootstrap.min.css HTTP/1.1" 200 113498\
+172.17.0.1 - - [14/Nov/2020:12:18:58 +0000] "GET /js/vendor/bootstrap.min.js HTTP/1.1" 200 35601\
+172.17.0.1 - - [14/Nov/2020:12:18:58 +0000] "GET /css/bootstrap-theme.min.css HTTP/1.1" 200 19835\
+172.17.0.1 - - [14/Nov/2020:12:18:58 +0000] "GET /js/main.js HTTP/1.1" 200 1\
+172.17.0.1 - - [14/Nov/2020:12:18:58 +0000] "GET /css/main.css HTTP/1.1" 200 204\
+172.17.0.1 - - [14/Nov/2020:12:18:58 +0000] "GET /js/vendor/modernizr-2.8.3-respond-1.4.2.min.js HTTP/1.1" 200 20106\
+172.17.0.1 - - [14/Nov/2020:12:18:58 +0000] "GET /apple-touch-icon.png HTTP/1.1" 200 3959\
+172.17.0.1 - - [14/Nov/2020:12:18:58 +0000] "GET /favicon.ico HTTP/1.1" 200 766\
+172.17.0.1 - - [14/Nov/2020:12:19:00 +0000] "GET / HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:00 +0000] "GET /js/vendor/modernizr-2.8.3-respond-1.4.2.min.js HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:00 +0000] "GET /js/vendor/bootstrap.min.js HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:00 +0000] "GET /js/main.js HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:01 +0000] "GET / HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:01 +0000] "GET /js/vendor/modernizr-2.8.3-respond-1.4.2.min.js HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:01 +0000] "GET /js/main.js HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:01 +0000] "GET /js/vendor/bootstrap.min.js HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:01 +0000] "GET / HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:01 +0000] "GET /js/vendor/modernizr-2.8.3-respond-1.4.2.min.js HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:01 +0000] "GET /js/vendor/bootstrap.min.js HTTP/1.1" 304 -\
+172.17.0.1 - - [14/Nov/2020:12:19:01 +0000] "GET /js/main.js HTTP/1.1" 304 -\
+\
+
+\fs28 Access hosted website
+\fs22 \
+http://localhost:5557/\
+\
+Once the CLI is closed the application goes down\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 \CocoaLigature1 Run container without port number. A random port number gets assigned
+\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker run -itd --name my-http-container-with-random-port -P my-httpd:latest\cf2 \cb1 \
+efd179866fdf9dda5a6d811985fa851fec69a9c36ad19114b3e1c9b9fb75f109\
+\
+\cf2 \cb3 docker ps\cf2 \cb1 \
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS              PORTS                   NAMES\
+efd179866fdf        my-httpd:latest     "httpd-foreground"   7 minutes ago       Up 6 minutes        0.0.0.0:32768->80/tcp   my-http-container-with-random-port\
+8b15eb7b5aab        my-httpd:latest     "httpd-foreground"   2 hours ago         Up 2 hours          0.0.0.0:5556->80/tcp    my-http-container-2\
+cf5f8e28a72c        my-httpd:latest     "httpd-foreground"   2 hours ago         Up 2 hours          0.0.0.0:5555->80/tcp    my-http-container-1\
+\
+
+\fs28 Access hosted website
+\fs22 \
+http://localhost:32768/\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 \CocoaLigature1 Inspect container
+\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker inspect 8b15eb7b5aab\cf2 \cb1 \
+[\
+    \{\
+        "Id": "8b15eb7b5aab5f3311e4802be8a26880c1e74a9496041f882824016507800772",\
+        "Created": "2020-11-14T11:43:48.8111446Z",\
+        "Path": "httpd-foreground",\
+        "Args": [],\
+        "State": \{\
+            "Status": "running",\
+            "Running": true,\
+            "Paused": false,\
+            "Restarting": false,\
+            "OOMKilled": false,\
+            "Dead": false,\
+            "Pid": 2114,\
+            "ExitCode": 0,\
+            "Error": "",\
+            "StartedAt": "2020-11-14T11:43:49.2755809Z",\
+            "FinishedAt": "0001-01-01T00:00:00Z"\
+        \},\
+        "Image": "sha256:f9c5fdcb01cc395d9055b01e2d39a837532b3d947cd68a76e2d9fa7b1ba07f8e",\
+        "ResolvConfPath": "/var/lib/docker/containers/8b15eb7b5aab5f3311e4802be8a26880c1e74a9496041f882824016507800772/resolv.conf",\
+        "HostnamePath": "/var/lib/docker/containers/8b15eb7b5aab5f3311e4802be8a26880c1e74a9496041f882824016507800772/hostname",\
+        "HostsPath": "/var/lib/docker/containers/8b15eb7b5aab5f3311e4802be8a26880c1e74a9496041f882824016507800772/hosts",\
+        "LogPath": "/var/lib/docker/containers/8b15eb7b5aab5f3311e4802be8a26880c1e74a9496041f882824016507800772/8b15eb7b5aab5f3311e4802be8a26880c1e74a9496041f882824016507800772-json.log",\
+        "Name": "/my-http-container-2",\
+        "RestartCount": 0,\
+        "Driver": "overlay2",\
+        "Platform": "linux",\
+        "MountLabel": "",\
+        "ProcessLabel": "",\
+        "AppArmorProfile": "",\
+        "ExecIDs": null,\
+        "HostConfig": \{\
+            "Binds": null,\
+            "ContainerIDFile": "",\
+            "LogConfig": \{\
+                "Type": "json-file",\
+                "Config": \{\}\
+            \},\
+            "NetworkMode": "default",\
+            "PortBindings": \{\
+                "80/tcp": [\
+                    \{\
+                        "HostIp": "",\
+                        "HostPort": "5556"\
+                    \}\
+                ]\
+            \},\
+            "RestartPolicy": \{\
+                "Name": "no",\
+                "MaximumRetryCount": 0\
+            \},\
+            "AutoRemove": false,\
+            "VolumeDriver": "",\
+            "VolumesFrom": null,\
+            "CapAdd": null,\
+            "CapDrop": null,\
+            "Capabilities": null,\
+            "Dns": [],\
+            "DnsOptions": [],\
+            "DnsSearch": [],\
+            "ExtraHosts": null,\
+            "GroupAdd": null,\
+            "IpcMode": "private",\
+            "Cgroup": "",\
+            "Links": null,\
+            "OomScoreAdj": 0,\
+            "PidMode": "",\
+            "Privileged": false,\
+            "PublishAllPorts": false,\
+            "ReadonlyRootfs": false,\
+            "SecurityOpt": null,\
+            "UTSMode": "",\
+            "UsernsMode": "",\
+            "ShmSize": 67108864,\
+            "Runtime": "runc",\
+            "ConsoleSize": [\
+                0,\
+                0\
+            ],\
+            "Isolation": "",\
+            "CpuShares": 0,\
+            "Memory": 0,\
+            "NanoCpus": 0,\
+            "CgroupParent": "",\
+            "BlkioWeight": 0,\
+            "BlkioWeightDevice": [],\
+            "BlkioDeviceReadBps": null,\
+            "BlkioDeviceWriteBps": null,\
+            "BlkioDeviceReadIOps": null,\
+            "BlkioDeviceWriteIOps": null,\
+            "CpuPeriod": 0,\
+            "CpuQuota": 0,\
+            "CpuRealtimePeriod": 0,\
+            "CpuRealtimeRuntime": 0,\
+            "CpusetCpus": "",\
+            "CpusetMems": "",\
+            "Devices": [],\
+            "DeviceCgroupRules": null,\
+            "DeviceRequests": null,\
+            "KernelMemory": 0,\
+            "KernelMemoryTCP": 0,\
+            "MemoryReservation": 0,\
+            "MemorySwap": 0,\
+            "MemorySwappiness": null,\
+            "OomKillDisable": false,\
+            "PidsLimit": null,\
+            "Ulimits": null,\
+            "CpuCount": 0,\
+            "CpuPercent": 0,\
+            "IOMaximumIOps": 0,\
+            "IOMaximumBandwidth": 0,\
+            "MaskedPaths": [\
+                "/proc/asound",\
+                "/proc/acpi",\
+                "/proc/kcore",\
+                "/proc/keys",\
+                "/proc/latency_stats",\
+                "/proc/timer_list",\
+                "/proc/timer_stats",\
+                "/proc/sched_debug",\
+                "/proc/scsi",\
+                "/sys/firmware"\
+            ],\
+            "ReadonlyPaths": [\
+                "/proc/bus",\
+                "/proc/fs",\
+                "/proc/irq",\
+                "/proc/sys",\
+                "/proc/sysrq-trigger"\
+            ]\
+        \},\
+        "GraphDriver": \{\
+            "Data": \{\
+                "LowerDir": "/var/lib/docker/overlay2/e7ec46678bf724a40926c0a55f2b553e3aee4f88f1fbacd0ee0e38b6c3a8987d-init/diff:/var/lib/docker/overlay2/t4jaiz54x7tt460ufxliyf7c1/diff:/var/lib/docker/overlay2/7130u8h0ovukk0ef1ouxlsc8l/diff:/var/lib/docker/overlay2/f9f9753d19684ea6b548ba041a9cc141931ea5e840db34114138334973a6a933/diff:/var/lib/docker/overlay2/0fa1b09e43ce7b9fc47d7e2762cd4868365b7e0c60359cfc4f7c06d56df3b39f/diff:/var/lib/docker/overlay2/74818c74edcd13811661b383702fdec8c698f3648f0fe0ce6e55dcbb995cc7ee/diff:/var/lib/docker/overlay2/c01bb3fac246d30295ed4e1b57964a1c555964202937af25399de32e0f4dbddc/diff:/var/lib/docker/overlay2/05a806dca62eca0a3eed88ba147257d5e76059c4a7ff936c2ffe4c542cb3a1ff/diff",\
+                "MergedDir": "/var/lib/docker/overlay2/e7ec46678bf724a40926c0a55f2b553e3aee4f88f1fbacd0ee0e38b6c3a8987d/merged",\
+                "UpperDir": "/var/lib/docker/overlay2/e7ec46678bf724a40926c0a55f2b553e3aee4f88f1fbacd0ee0e38b6c3a8987d/diff",\
+                "WorkDir": "/var/lib/docker/overlay2/e7ec46678bf724a40926c0a55f2b553e3aee4f88f1fbacd0ee0e38b6c3a8987d/work"\
+            \},\
+            "Name": "overlay2"\
+        \},\
+        "Mounts": [],\
+        "Config": \{\
+            "Hostname": "8b15eb7b5aab",\
+            "Domainname": "",\
+            "User": "",\
+            "AttachStdin": false,\
+            "AttachStdout": false,\
+            "AttachStderr": false,\
+            "ExposedPorts": \{\
+                "80/tcp": \{\}\
+            \},\
+            "Tty": true,\
+            "OpenStdin": true,\
+            "StdinOnce": false,\
+            "Env": [\
+                "PATH=/usr/local/apache2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",\
+                "HTTPD_PREFIX=/usr/local/apache2",\
+                "HTTPD_VERSION=2.4.46",\
+                "HTTPD_SHA256=740eddf6e1c641992b22359cabc66e6325868c3c5e2e3f98faf349b61ecf41ea",\
+                "HTTPD_PATCHES="\
+            ],\
+            "Cmd": [\
+                "httpd-foreground"\
+            ],\
+            "Image": "my-httpd:latest",\
+            "Volumes": null,\
+            "WorkingDir": "/usr/local/apache2",\
+            "Entrypoint": null,\
+            "OnBuild": null,\
+            "Labels": \{\
+                "Maintainer": "Pictolearn"\
+            \},\
+            "StopSignal": "SIGWINCH"\
+        \},\
+        "NetworkSettings": \{\
+            "Bridge": "",\
+            "SandboxID": "aeee678aa4157ede34ceb807f78a3b808a2a1f1a6c424b446e93b77fad73d187",\
+            "HairpinMode": false,\
+            "LinkLocalIPv6Address": "",\
+            "LinkLocalIPv6PrefixLen": 0,\
+            "Ports": \{\
+                "80/tcp": [\
+                    \{\
+                        "HostIp": "0.0.0.0",\
+                        "HostPort": "5556"\
+                    \}\
+                ]\
+            \},\
+            "SandboxKey": "/var/run/docker/netns/aeee678aa415",\
+            "SecondaryIPAddresses": null,\
+            "SecondaryIPv6Addresses": null,\
+            "EndpointID": "5badb197610941d0dc1f12bae08086c033782d20d09b8a36443beeb6d48fceba",\
+            "Gateway": "172.17.0.1",\
+            "GlobalIPv6Address": "",\
+            "GlobalIPv6PrefixLen": 0,\
+            "IPAddress": "172.17.0.3",\
+            "IPPrefixLen": 16,\
+            "IPv6Gateway": "",\
+            "MacAddress": "02:42:ac:11:00:03",\
+            "Networks": \{\
+                "bridge": \{\
+                    "IPAMConfig": null,\
+                    "Links": null,\
+                    "Aliases": null,\
+                    "NetworkID": "13713630074ab7623771d70643b635ecc30fb77a7d2912f7aa4832931c141ae6",\
+                    "EndpointID": "5badb197610941d0dc1f12bae08086c033782d20d09b8a36443beeb6d48fceba",\
+                    "Gateway": "172.17.0.1",\
+                    "IPAddress": "172.17.0.3",\
+                    "IPPrefixLen": 16,\
+                    "IPv6Gateway": "",\
+                    "GlobalIPv6Address": "",\
+                    "GlobalIPv6PrefixLen": 0,\
+                    "MacAddress": "02:42:ac:11:00:03",\
+                    "DriverOpts": null\
+                \}\
+            \}\
+        \}\
+    \}\
+]\
+\
+It shows all the metadata\'92s of container. It shows long form of Unique ID, short form, When it was created, is it running, when it was paused, finished, started, shows image-id from which it was created,\
+and many more. It helps in resolving any errors or debugging or troubleshooting purpose.\
+It also has Gateway address, IP address, Mac Address, and many more things.\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 \CocoaLigature1 View logs of Container (Background process)
+\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker logs efd179866fdf\cf2 \cb1 \
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.4. Set the 'ServerName' directive globally to suppress this message\
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.4. Set the 'ServerName' directive globally to suppress this message\
+[Sat Nov 14 13:30:05.263530 2020] [mpm_event:notice] [pid 1:tid 139947570611328] AH00489: Apache/2.4.46 (Unix) configured -- resuming normal operations\
+[Sat Nov 14 13:30:05.264430 2020] [core:notice] [pid 1:tid 139947570611328] AH00094: Command line: 'httpd -D FOREGROUND'\
+172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET / HTTP/1.1" 200 3294\
+172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /css/bootstrap.min.css HTTP/1.1" 200 113498\
+172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /js/vendor/modernizr-2.8.3-respond-1.4.2.min.js HTTP/1.1" 200 20106\
+172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /css/main.css HTTP/1.1" 200 204\
+172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /js/main.js HTTP/1.1" 200 1\
+172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /css/bootstrap-theme.min.css HTTP/1.1" 200 19835\
+172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /js/vendor/bootstrap.min.js HTTP/1.1" 200 35601\
+172.17.0.1 - - [14/Nov/2020:13:37:21 +0000] "GET /apple-touch-icon.png HTTP/1.1" 200 3959\
+172.17.0.1 - - [14/Nov/2020:13:37:21 +0000] "GET /favicon.ico HTTP/1.1" 200 766\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 \CocoaLigature1 View logs of Container (Foreground process)
+\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker logs -ft efd179866fdf\cf2 \cb1 \
+2020-11-14T13:30:05.244248200Z AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.4. Set the 'ServerName' directive globally to suppress this message\
+2020-11-14T13:30:05.259856300Z AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.4. Set the 'ServerName' directive globally to suppress this message\
+2020-11-14T13:30:05.264263700Z [Sat Nov 14 13:30:05.263530 2020] [mpm_event:notice] [pid 1:tid 139947570611328] AH00489: Apache/2.4.46 (Unix) configured -- resuming normal operations\
+2020-11-14T13:30:05.264894200Z [Sat Nov 14 13:30:05.264430 2020] [core:notice] [pid 1:tid 139947570611328] AH00094: Command line: 'httpd -D FOREGROUND'\
+2020-11-14T13:37:20.741968100Z 172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET / HTTP/1.1" 200 3294\
+2020-11-14T13:37:20.960557800Z 172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /css/bootstrap.min.css HTTP/1.1" 200 113498\
+2020-11-14T13:37:20.967350200Z 172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /js/vendor/modernizr-2.8.3-respond-1.4.2.min.js HTTP/1.1" 200 20106\
+2020-11-14T13:37:20.967425600Z 172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /css/main.css HTTP/1.1" 200 204\
+2020-11-14T13:37:20.967449900Z 172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /js/main.js HTTP/1.1" 200 1\
+2020-11-14T13:37:20.967481500Z 172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /css/bootstrap-theme.min.css HTTP/1.1" 200 19835\
+2020-11-14T13:37:20.968213500Z 172.17.0.1 - - [14/Nov/2020:13:37:20 +0000] "GET /js/vendor/bootstrap.min.js HTTP/1.1" 200 35601\
+2020-11-14T13:37:21.242419300Z 172.17.0.1 - - [14/Nov/2020:13:37:21 +0000] "GET /apple-touch-icon.png HTTP/1.1" 200 3959\
+2020-11-14T13:37:21.242736500Z 172.17.0.1 - - [14/Nov/2020:13:37:21 +0000] "GET /favicon.ico HTTP/1.1" 200 766\
+2020-11-14T14:09:42.065130400Z 172.17.0.1 - - [14/Nov/2020:14:09:42 +0000] "GET / HTTP/1.1" 200 3294\
+2020-11-14T14:09:42.150581800Z 172.17.0.1 - - [14/Nov/2020:14:09:42 +0000] "GET /js/vendor/modernizr-2.8.3-respond-1.4.2.min.js HTTP/1.1" 200 20106\
+2020-11-14T14:09:42.160251800Z 172.17.0.1 - - [14/Nov/2020:14:09:42 +0000] "GET /js/vendor/bootstrap.min.js HTTP/1.1" 304 -\
+2020-11-14T14:09:42.171051900Z 172.17.0.1 - - [14/Nov/2020:14:09:42 +0000] "GET /js/main.js HTTP/1.1" 304 -\
+2020-11-14T14:10:24.199992900Z 172.17.0.1 - - [14/Nov/2020:14:10:24 +0000] "GET / HTTP/1.1" 304 -\
+2020-11-14T14:10:24.283321100Z 172.17.0.1 - - [14/Nov/2020:14:10:24 +0000] "GET /js/vendor/modernizr-2.8.3-respond-1.4.2.min.js HTTP/1.1" 304 -\
+2020-11-14T14:10:24.283395700Z 172.17.0.1 - - [14/Nov/2020:14:10:24 +0000] "GET /js/main.js HTTP/1.1" 304 -\
+2020-11-14T14:10:24.287171500Z 172.17.0.1 - - [14/Nov/2020:14:10:24 +0000] "GET /js/vendor/bootstrap.min.js HTTP/1.1" 304 -\
+2020-11-14T14:10:25.551750400Z 172.17.0.1 - - [14/Nov/2020:14:10:25 +0000] "GET / HTTP/1.1" 304 -\
+2020-11-14T14:10:25.618032500Z 172.17.0.1 - - [14/Nov/2020:14:10:25 +0000] "GET /js/vendor/modernizr-2.8.3-respond-1.4.2.min.js HTTP/1.1" 304 -\
+2020-11-14T14:10:25.626368000Z 172.17.0.1 - - [14/Nov/2020:14:10:25 +0000] "GET /js/main.js HTTP/1.1" 304 -\
+2020-11-14T14:10:25.627156200Z 172.17.0.1 - - [14/Nov/2020:14:10:25 +0000] "GET /js/vendor/bootstrap.min.js HTTP/1.1" 304 -\
+2020-11-14T14:10:26.571552800Z 172.17.0.1 - - [14/Nov/2020:14:10:26 +0000] "GET / HTTP/1.1" 304 -\
+2020-11-14T14:10:26.626670600Z 172.17.0.1 - - [14/Nov/2020:14:10:26 +0000] "GET /js/vendor/modernizr-2.8.3-respond-1.4.2.min.js HTTP/1.1" 304 -\
+2020-11-14T14:10:26.630018600Z 172.17.0.1 - - [14/Nov/2020:14:10:26 +0000] "GET /js/vendor/bootstrap.min.js HTTP/1.1" 304 -\
+2020-11-14T14:10:26.630556400Z 172.17.0.1 - - [14/Nov/2020:14:10:26 +0000] "GET /js/main.js HTTP/1.1" 304 -\
+\pard\pardeftab720\partightenfactor0
+\cf2 \CocoaLigature1 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 \CocoaLigature0 docker ps -a\cf2 \cb1 \
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS                   PORTS                   NAMES\
+efd179866fdf        my-httpd:latest     "httpd-foreground"   About an hour ago   Up About an hour         0.0.0.0:32768->80/tcp   my-http-container-with-random-port\
+9fdf31d91125        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                           my-http-container-10-not-detached-mode\
+2ba7e708705c        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                           my-http-container-not-detached-mode\
+811683a80a82        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                           my-http-container-5-non-detached\
+0e20474d75a8        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                           my-http-container-4-non-detached\
+4fa94aa7a333        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                           my-http-container-3-non-detached\
+218bc35ba1ff        my-httpd:latest     "httpd-foreground"   3 hours ago         Created                                          my-http-container-3\
+8b15eb7b5aab        my-httpd:latest     "httpd-foreground"   3 hours ago         Up 3 hours               0.0.0.0:5556->80/tcp    my-http-container-2\
+cf5f8e28a72c        my-httpd:latest     "httpd-foreground"   3 hours ago         Up 3 hours               0.0.0.0:5555->80/tcp    my-http-container-1\
+cde22a5de0cd        hello-world         "/hello"             7 hours ago         Exited (0) 7 hours ago                           jolly_jang\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs28 \cf2 \CocoaLigature1 Stop and start Container
+\fs22 \cf2 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \cb3 docker stop efd179866fdf\cf2 \cb1 \
+efd179866fdf\
+\
+We even don\'92t need to mention short name of Container to stop or start. By mentioning start letter of container will be enough (Docker will automatically finds it)\
+\cf2 \cb3 docker stop e\cf2 \cb1  (Since there is no container starts with e except one docker will find it recognise it easily)\
+\
+\
+\cf2 \cb3 docker ps -a\cf2 \cb1 \
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS                     PORTS                  NAMES\
+efd179866fdf        my-httpd:latest     "httpd-foreground"   About an hour ago   Exited (0) 3 seconds ago                          my-http-container-with-random-port\
+9fdf31d91125        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                            my-http-container-10-not-detached-mode\
+2ba7e708705c        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                            my-http-container-not-detached-mode\
+811683a80a82        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                            my-http-container-5-non-detached\
+0e20474d75a8        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                            my-http-container-4-non-detached\
+4fa94aa7a333        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                            my-http-container-3-non-detached\
+218bc35ba1ff        my-httpd:latest     "httpd-foreground"   3 hours ago         Created                                           my-http-container-3\
+8b15eb7b5aab        my-httpd:latest     "httpd-foreground"   3 hours ago         Up 3 hours                 0.0.0.0:5556->80/tcp   my-http-container-2\
+cf5f8e28a72c        my-httpd:latest     "httpd-foreground"   3 hours ago         Up 3 hours                 0.0.0.0:5555->80/tcp   my-http-container-1\
+cde22a5de0cd        hello-world         "/hello"             7 hours ago         Exited (0) 7 hours ago                            jolly_jang\
+\
+\cf2 \cb3 docker start efd179866fdf\cf2 \cb1 \
+efd179866fdf\
+\cf2 \cb3 docker ps -a\cf2 \cb1 \
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS                   PORTS                   NAMES\
+efd179866fdf        my-httpd:latest     "httpd-foreground"   About an hour ago   Up 51 seconds            0.0.0.0:32769->80/tcp   my-http-container-with-random-port\
+9fdf31d91125        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                           my-http-container-10-not-detached-mode\
+2ba7e708705c        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                           my-http-container-not-detached-mode\
+811683a80a82        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                           my-http-container-5-non-detached\
+0e20474d75a8        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                           my-http-container-4-non-detached\
+4fa94aa7a333        my-httpd:latest     "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                           my-http-container-3-non-detached\
+218bc35ba1ff        my-httpd:latest     "httpd-foreground"   3 hours ago         Created                                          my-http-container-3\
+8b15eb7b5aab        my-httpd:latest     "httpd-foreground"   3 hours ago         Up 3 hours               0.0.0.0:5556->80/tcp    my-http-container-2\
+cf5f8e28a72c        my-httpd:latest     "httpd-foreground"   3 hours ago         Up 3 hours               0.0.0.0:5555->80/tcp    my-http-container-1\
+cde22a5de0cd        hello-world         "/hello"             7 hours ago         Exited (0) 7 hours ago                           jolly_jang}
