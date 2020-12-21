@@ -1,0 +1,5 @@
+Use case 6 : 
+
+Create an image consisting of UBUNTU with the necessary version of curl, vim , JDK and tomcat for use by teams around the company. 
+Tag the image
+Push the image to the repository.

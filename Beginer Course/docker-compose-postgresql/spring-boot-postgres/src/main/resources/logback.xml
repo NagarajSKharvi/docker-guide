@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="/org/springframework/boot/logging/logback/base.xml"/>
+	
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>
+        [%d{dd-MM-yyyy HH:mm:ss.SSS}] [%X{traceId}/%X{spanId}] %magenta([%thread]) %highlight(%-5level) %cyan(%logger{36}.%M) - %msg %n
+      </pattern>
+    </encoder>
+  	</appender>
+	
+	<property name="LOG_FILE" value="logs/app" />
+	<appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE}.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%d{dd-MM-yyyy HH:mm:ss.SSS}][%X{traceId}/%X{spanId}]%magenta([%thread]) %highlight(%-5level) %cyan(%logger{100}.%M)->%msg %n
+			</pattern>
+		</encoder>
+		
+		 <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+		    <fileNamePattern>
+		    ${LOG_FILE}_%d{dd-MM-yyyy}_%i.log
+		    </fileNamePattern>
+		     <!-- each archived file, size max 1MB -->
+		    <maxFileSize>1MB</maxFileSize>
+		    <!-- 3 days to keep -->
+		    <maxHistory>3</maxHistory>
+		    <!-- total size of all archive files, if total size > 10MB, it will delete old archived file -->
+		    <totalSizeCap>10MB</totalSizeCap>
+    	 </rollingPolicy>
+
+	</appender>
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ROLLING_FILE" />
+	</root>
+	
+	<logger name="com.example.demo" level="DEBUG"/>
+	
+</configuration>
